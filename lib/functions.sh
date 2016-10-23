@@ -131,10 +131,12 @@ function convertBlueprintToJSON() {
   perl -p -i -e 's/\{\{(.+?)\}\}/\[\{\1\}\]/g' $usage_unit
 
   ########
-  # Correct intentional breaks
+  # Correct intentional breaks, add ID
   #
   # remove newlines again - some line breaks can mess with the mjson.tool
   sed ':a;N;$!ba;s/\n//g' -i $usage_unit
+  # add blueprint ID to each file
+  sed -re "s/^(.*)$/\"BlueprintID\": \"$unit_id\",\1/" -i $usage_unit
   # replace first and last braces
   sed -re 's/^(.*)$/\{\1\}/' -i $usage_unit
 
